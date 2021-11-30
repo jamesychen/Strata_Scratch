@@ -72,4 +72,34 @@ ON e.id = s.employee_id
 GROUP BY location 
 ORDER BY 2 DESC
 
+/* ID 10026: Find all wineries which produce wines by possessing aromas of plum, cherry, rose, or hazelnut
+Find all wineries which produce wines by possessing aromas of plum, cherry, rose, or hazelnut.
+Output unique winery values only.
+*/
+
+-- select * from winemag_p1;
+-- find wine processed by plum, cherry, rose, hazelnut
+--ILIKE instead of LIKE to ignore case sensitivity
+--output unique wine
+
+SELECT distinct winery
+FROM winemag_p1
+WHERE description ILIKE '%plum%' OR 
+      description ILIKE '%cherry%' OR
+       description ILIKE '%rose%' OR
+      description  ILIKE '%hazelnut%' 
+                       
+
+
+/*ID 10128: Count the number of movies that Abigail Breslin nominated for oscar
+Count the number of movies that Abigail Breslin was nominated for an oscar.
+*/
+
+
+--count movies by abigail breslin
+-- output movies
+
+SELECT COUNT(*) AS number_of_movies
+FROM oscar_nominees
+WHERE nominee = 'Abigail Breslin'
 
