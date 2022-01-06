@@ -56,3 +56,11 @@ SELECT to_user
 FROM google_gmail_emails e 
 JOIN google_gmail_labels l ON e.id=l.email_id
 GROUP BY 1
+
+
+---- median
+
+
+SELECT PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY age)
+FROM olympics_athletes_events
+WHERE medal = 'Gold'
