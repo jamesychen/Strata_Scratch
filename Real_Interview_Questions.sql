@@ -64,3 +64,46 @@ GROUP BY 1
 SELECT PERCENTILE_CONT(0.5) WITHIN GROUP(ORDER BY age)
 FROM olympics_athletes_events
 WHERE medal = 'Gold'
+
+------ hard
+
+WITH amounts_by_months AS (
+SELECT EXTRACT(month from invoicedate) AS month
+  ,description 
+  ,RANK() OVER (Partition by EXTRACT(month from invoicedate) ORDER BY SUM(unitprice*quantity) DESC)
+  ,SUM(unitprice*quantity) AS amount_paid
+FROM online_retail
+GROUP BY 1,2)
+
+SELECT month
+  ,description  
+  ,amount_paid 
+FROM amounts_by_months
+WHERE rank=1
+ORDER BY 1,2
+
+
+
+WITH amounts_by_months AS (
+SELECT EXTRACT(month from invoicedate) AS month
+  ,description 
+  ,SUM(unitprice*quantity) AS amount_paid
+FROM online_retail
+GROUP BY 1,2)
+
+SELECT month
+  ,description  
+  ,amount_paid 
+FROM amounts_by_months
+WHERE (month, amount_paid) IN (SELECT month, MAX(amount_paid) FROM amounts_by_months GROUP BY 1)
+ORDER BY 1,2
+
+
+WITH amounts_by_months AS (
+SELECT to_char( invoicedate,'YYYY-MM') AS month
+  ,description 
+  ,SUM(unitprice*quantity) AS amount_paid
+FROM online_retail
+GROUP BY 1,2
+ORDER BY 1
+)
